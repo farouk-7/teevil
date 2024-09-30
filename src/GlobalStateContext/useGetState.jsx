@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { GlobalStateContext } from "./GlobalState";
 
 export const useGetState = () => {
-  const { state, setState } = useContext(GlobalStateContext);
+  const { state, setState, dispatch } = useContext(GlobalStateContext);
 
-  return { state, setState };
+  return { state, setState, dispatch };
 };

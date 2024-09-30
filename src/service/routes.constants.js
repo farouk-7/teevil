@@ -2,6 +2,22 @@ export const AUTH_ROUTES = {
   // AUTH
   LOGIN: "/vendor/login",
   SIGN_UP:"/vendor/signup",
+  GET_VENDOR: "/vendor/",
+  CHANGE_PASSWORD:"/vendor/change-password",
+
+  //SERVICE-REQUEST
+  GET_ALL_REQUEST:"/service-request",
+  ACCEPT_REQUEST:"/response",
+
+
+
+
+
+
+
+
+
+
 
   GET_LOGGED_IN_ADMIN: "/admin/me",
   UPDATE_ADMIN_DETAILS: (id) => `/admin/update/${id}`,
@@ -83,5 +99,5 @@ export const AUTH_ROUTES = {
   UPDATE_TRIP: (id) => `/trips/update/${id}`,
 
   //PROFILE
-  UPDATE_IMAGE: "/admin/image",
+  UPDATE_IMAGE:(id)=>`/vendor/update/${id}?image`,
 };

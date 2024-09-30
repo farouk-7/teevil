@@ -5,13 +5,10 @@ import { GlobalStateContext } from "./GlobalStateContext/GlobalState";
 import "./App.css";
 import { Box } from "@chakra-ui/react";
 
-const Unauthenticated = lazy(()=>
-  import("./component/Unauthenticated")
-);
-const AuthenticatedRoutes = lazy(()=>
+const Unauthenticated = lazy(() => import("./component/Unauthenticated"));
+const AuthenticatedRoutes = lazy(() =>
   import("./component/AuthenticatedRoutes")
 );
-
 
 function App() {
   const [authorized, setAuthorized] = useState(false);
@@ -20,6 +17,9 @@ function App() {
       ? JSON.parse(localStorage.getItem("state"))
       : {}
   );
+   const dispatch = (incoming) => {
+     setState((prev) => ({ ...prev, ...incoming }));
+   };
 
   useEffect(() => {
     localStorage.setItem("state", JSON.stringify(state));
@@ -47,15 +47,11 @@ function App() {
   return (
     <Suspense fallback={<p></p>}>
       {authorized ? (
-        <GlobalStateContext.Provider
-          value={{
-            state,
-            setState: (data) => setState((prev) => ({ ...prev, ...data })),
-          }}>
-            <AuthenticatedRoutes />{" "}
+        <GlobalStateContext.Provider value={{ state, setState, dispatch }} >
+          <AuthenticatedRoutes />{" "}
         </GlobalStateContext.Provider>
       ) : (
-          <Unauthenticated />
+        <Unauthenticated />
       )}
     </Suspense>
   );

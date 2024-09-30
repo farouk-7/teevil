@@ -5,6 +5,9 @@ export const AUTHENTICATED_ROUTES = {
   event:"/event",
   orders:"/orders",
   event_details:"/event-details",
+  assigned_order_details:"/assigned_order_details",
+  new_request_details:"/new_request_details",
+  profile:"/profile",
 
 
   guest_management: "/guest-management",

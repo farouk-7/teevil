@@ -79,23 +79,29 @@ function Sidebar() {
                     }
                     return isActive
                       ? {
-                          color: _COLORS.brand,
-                          // background: _COLORS.brand,
-                          padding: "10px",
-                          width: "100%",
-                          fontSize: ".8em",
+                        color: "white",
+                        background: _COLORS.brand,
+                        padding: "10px",
+                        width: "100%",
+                        fontSize: ".8em",
 
-                          borderRadius: "8px",
-                          boxShadow: "rgb(0 0 0 / 30%) 1px 1px 3px",
-                        }
+                        borderRadius: "8px",
+                        boxShadow: "rgb(0 0 0 / 30%) 1px 1px 3px",
+                      }
                       : {
-                          color: "#2D3748",
-                          width: "100%",
-                          fontSize: ".8em",
-                          padding: "10px",
-                        };
+                        color: "#2D3748",
+                        width: "100%",
+                        fontSize: ".8em",
+                        padding: "10px",
+                      };
                   }}
                   to={to}
+                  {...(mobile
+                    ? {
+                        onClick: () =>
+                          setState((prev) => ({ ...prev, toggle: true })),
+                      }
+                    : {})}
                     >
                   <style>
                     {/* this style the active state */}

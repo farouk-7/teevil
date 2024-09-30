@@ -23,6 +23,16 @@ export const getPageTitle = (pathname) => {
     case AUTHENTICATED_ROUTES.settings:
       return "Settings";
 
+    case AUTHENTICATED_ROUTES.assigned_order_details:
+      return "Assigned Order Details";
+
+      case AUTHENTICATED_ROUTES.new_request_details:
+      return "Request Details";
+
+
+
+
+
     case AUTHENTICATED_ROUTES.event_management_aso_ebi:
       return "Aso-Ebi";
     case AUTHENTICATED_ROUTES.floor_plan:

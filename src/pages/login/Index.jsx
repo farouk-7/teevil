@@ -139,7 +139,7 @@ const Login = () => {
                 fontWeight={700}
                 color={"#000"}
                 text={"Facebook"}
-                childComp={<FaFacebook size={30} />}
+                childComp={<FaFacebook size={30} color="blue"/>}
                 bg={"none"}
                 border={"1px solid #E0E2E9"}
               />

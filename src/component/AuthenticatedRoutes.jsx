@@ -9,9 +9,31 @@ import MyEvent from "../pages/event/Index";
 import Orders from "../pages/orders/Index";
 import EventDetails from "../pages/event/components/EventDetails";
 import Navigation from "./Navigation";
+import SeeMore from "../pages/market/components/SeeMore";
+import NewRequestDetails from "../pages/market/components/NewRequestDetails";
+import { useGetState } from "../GlobalStateContext/useGetState";
+import { useQuery } from "@tanstack/react-query";
+import {getVendorDetails} from "../GlobalStateContext/getLoggedInVendor"
+import { useEffect } from "react";
+import FullPageLoader from "./FullPageLoader"
+import Profile from "../pages/setting/components/Profile";
 
 const AuthenticatedRoutes = () => {
-  return (
+  const { setState = {}, state = {} } = useGetState();
+
+  const { isLoading, refetch } = useQuery({
+    queryKey: ["admin"],
+    queryFn: () => getVendorDetails(setState),
+  });
+
+  useEffect(() => {
+    refetch();
+    console.log("RELOAD APP");
+  }, [refetch, state.updated]);
+
+  return isLoading ? (
+    <FullPageLoader />
+  ):(
     <Box>
        <BrowserRouter>
       <Flex
@@ -56,6 +78,12 @@ const AuthenticatedRoutes = () => {
                 path={AUTHENTICATED_ROUTES.event_details}
                 element={<EventDetails/>}
               />
+                <Route
+                path={AUTHENTICATED_ROUTES.assigned_order_details}
+                element={<SeeMore />}
+              />
+              <Route path={AUTHENTICATED_ROUTES.new_request_details} element={<NewRequestDetails />}/>
+              <Route path={AUTHENTICATED_ROUTES.profile} element={<Profile />}/>
               
               <Route path="/*" element={<Market />} />
             </Routes>
