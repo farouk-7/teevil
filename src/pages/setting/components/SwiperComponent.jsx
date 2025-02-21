@@ -35,7 +35,7 @@ const SwiperComponent = () => {
         dots: true,
         infinite: true,
         speed: 500,
-        slidesToShow: 3,
+        slidesToShow: 2,
         slidesToScroll: 1,
         nextArrow: <BsArrowRightSquare color="black" size={30} />,
         prevArrow: <BsArrowLeftSquare color="black" size={30} />,

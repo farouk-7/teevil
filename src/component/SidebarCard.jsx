@@ -17,7 +17,7 @@ const SidebarCard = () => {
         borderRadius=".5rem"
         fontSize=".6rem"
         color={_COLORS.white}
-        bg={"#7B5DD6"}
+        bg={_COLORS?.brandPink}
         zIndex={999}
       >
         <Image pos={"absolute"} zIndex={1} src={wave} />

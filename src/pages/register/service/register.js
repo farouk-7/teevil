@@ -5,15 +5,17 @@ import axiosInstance, {AUTH_ROUTES} from "../../../service/api";
 
 
 
-export const registerVendor = async (payload, setLoading) => {
+export const registerUser = async (payload, setLoading, email, navigate) => {
     try {
       const {
         data: { data },
       } = await axiosInstance.post(AUTH_ROUTES.SIGN_UP, payload);
       setLoading(false);
       console.log(data)
-      successNotifier("Vendor Created Successfully")
-      window.location.replace("/")
+      successNotifier("User Created Successfully")
+      navigate(`/verify-code/${email}`, {state:data});
+      // window.location.replace("/verify-code")
+
     } catch (e) {
       setLoading(false);
       if (e.response) {

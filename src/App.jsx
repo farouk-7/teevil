@@ -1,6 +1,7 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 import { APP_CONSTANTS } from "./constants/app";
-import { jwtDecode } from "jwt-decode";
+// import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"
 import { GlobalStateContext } from "./GlobalStateContext/GlobalState";
 import "./App.css";
 import { Box } from "@chakra-ui/react";
@@ -33,7 +34,9 @@ function App() {
     const token = sessionStorage?.getItem(APP_CONSTANTS.token);
 
     if (token) {
-      const decoded = jwtDecode(token);
+      const decoded =jwtDecode(token);
+      console.log("Decoded token:", decoded); // Debugging
+
       const expiryDate = new Date(decoded?.exp * 1000);
 
       setState({ ...state, user: decoded });

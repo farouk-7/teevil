@@ -35,11 +35,11 @@ const Profile = () => {
         h={"fit-content"}
         mt="50px"
         borderTopRadius={"20px"}
-        p={"40px"}
+        p={["20px","20px","20px","40px"]}
         pb={"50px"}
       >
         <Text>Service Details</Text>
-        <Text py={"30px"} fontSize={"30px"} fontWeight={"bold"}>
+        <Text py={"30px"} fontSize={["20px","20px","20px","30px"]} fontWeight={"bold"}>
           Image and Video Coverage for Wedding Ceremony
         </Text>
         <Flex align={"center"} gap={"8px"}>

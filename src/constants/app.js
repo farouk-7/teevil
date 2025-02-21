@@ -1,4 +1,4 @@
 export const APP_CONSTANTS = {
-  token: "#GS#VENDOR",
+  token: "#GS#USER",
   user: "LOGGED_USER",
 };

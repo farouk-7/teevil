@@ -6,9 +6,9 @@ export const getVendorDetails = async (setVendorData) => {
     try {
       const {
         data: { data },
-      } = await axiosInstance.get(AUTH_ROUTES.GET_VENDOR);
+      } = await axiosInstance.get(AUTH_ROUTES.GET_LOGGED_IN_VENDOR);
       setVendorData(data);
-      // console.log("ADMIN DATA", data);
+      console.log("Vendor DATA", data);
       return data;
     } catch (e) {
       if (e?.response) {

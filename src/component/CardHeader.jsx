@@ -15,12 +15,15 @@ import { FaUser } from "react-icons/fa";
 import { FaBell } from "react-icons/fa";
 import { IoSettingsSharp } from "react-icons/io5";
 import wave from "../assets/wave.png";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getPageTitle } from "../utils/GetPageTitle";
 import { clearLocalStorage, getLocalStorageItem } from "../utils/localStorage";
 import { APP_CONSTANTS } from "../constants/app";
+import { AUTHENTICATED_ROUTES } from "../constants/pageRoutes";
+import { useGetState } from "../GlobalStateContext/useGetState";
 
 const CardHeader = ({ children }) => {
+  const {state} = useGetState()
   const user = getLocalStorageItem(APP_CONSTANTS.user);
 
   const location = useLocation();
@@ -28,8 +31,8 @@ const CardHeader = ({ children }) => {
   return (
     <Box
       w={"full"}
-      height={"300px"}
-      bg={"#7B5DD6"}
+      height={["fit-content","fit-content","fit-content","300px"]}
+      bg={_COLORS?.brand}
       bgImage={wave}
       backgroundPosition={"center"}
       backgroundSize={"cover"}
@@ -54,7 +57,8 @@ const CardHeader = ({ children }) => {
 
         <Box>
           <Flex align={"center"} gap={"30px"}>
-            <Box>
+
+            <Box display={["none","none","none","block"]}>
               <InputGroup>
                 <InputLeftElement pointerEvents="none">
                   <BiSearch color="gray.300" />
@@ -69,7 +73,7 @@ const CardHeader = ({ children }) => {
             </Box>
             <Flex color={_COLORS.white} align={"center"} gap={"5px"}>
               <FaUser color={_COLORS.white} />
-              <Text fontWeight={500}>User</Text>
+              <Text fontWeight={500}>{state?.fullName}</Text>
             </Flex>
             <Text
               color={_COLORS.white}
@@ -82,9 +86,12 @@ const CardHeader = ({ children }) => {
             >
               sign out
             </Text>
-            <Box>
+            <Link to={AUTHENTICATED_ROUTES.setting}>
+             <Box>
               <IoSettingsSharp color={_COLORS.white} />
             </Box>
+            </Link>
+           
             <Box>
               <FaBell color={_COLORS.white} />
             </Box>

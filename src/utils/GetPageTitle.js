@@ -29,6 +29,9 @@ export const getPageTitle = (pathname) => {
       case AUTHENTICATED_ROUTES.new_request_details:
       return "Request Details";
 
+      case AUTHENTICATED_ROUTES.event_details:
+      return "Event Details";
+    
 
 
 

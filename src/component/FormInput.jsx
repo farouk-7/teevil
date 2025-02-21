@@ -9,13 +9,15 @@ function FormInput({
   type,
   mt,
   mb,
+  color,
+  focusBorderColor,
   lines,
   labelColor,
   ...props
 }) {
   return (
     <FormControl mt={mt} mb={mb}>
-      <FormLabel fontSize={".86em"} color={labelColor}>
+      <FormLabel fontSize={"1em"} color={labelColor}>
         {label}
       </FormLabel>
       {!lines ? (
@@ -23,14 +25,16 @@ function FormInput({
           type={type}
           name={name}
           value={value}
+          focusBorderColor={focusBorderColor}
           onChange={handleChange}
-          color={"black"}
+          color={color || "white"}
           {...props}
         />
       ) : (
         <Textarea
           color={"black"}
           type={type}
+          focusBorderColor={focusBorderColor}
           name={name}
           value={value}
           rows={lines}

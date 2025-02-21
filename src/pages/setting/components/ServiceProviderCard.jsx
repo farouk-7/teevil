@@ -4,25 +4,26 @@ import { RiEditFill } from 'react-icons/ri'
 import { _COLORS } from '../../../constants/colors'
 import { useGetState } from '../../../GlobalStateContext/useGetState'
 import { updateProfileImage } from './services/service'
+import { TiVendorAndroid } from 'react-icons/ti'
 
 const ServiceProviderCard = () => {
   const {state} = useGetState()
   console.log(state,"ope")
-  const id = state?.d
+  const vendorId = state?._id
 
   const handleChange = async (e) => {
     console.log(e.target.files?.[0], "fanda");
     const formData = new FormData();
     
     formData.append("image", e.target.files?.[0]);
-    await updateProfileImage( formData);
+    await updateProfileImage(vendorId, formData);
   };
   return (
     <Box borderRadius={"10px"} p={"20px"} bg={"#fff"} boxShadow={"rgba(0, 0, 0, 0.24) 0px 3px 8px;"}>
 
 
        <Flex pos={"relative"} w={"fit-content"} mb="20px">
-        <Avatar size='2xl' name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
+        <Avatar size='2xl' name={state?.fullName} src={state?.image} />
         <Flex
           bg={_COLORS?.brand}
           p="7px"

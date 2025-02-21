@@ -14,6 +14,7 @@ import {
 import circle from "../../../assets/circle.png";
 import box from "../../../assets/box.png";
 import Milestones from "./Milestones";
+import ChatWindow from "./ChatWindow";
 
 const SeeMore = () => {
     const [tabToselect, setTabToSelected] = useState("milestones")
@@ -113,7 +114,7 @@ const SeeMore = () => {
           
         </Tabs>
         <Box>
-            {tabToselect==="milestones"?<Milestones /> :"gru"}
+            {tabToselect==="milestones"?<Milestones /> :<ChatWindow /> }
           </Box>
       </Box>
     </Box>

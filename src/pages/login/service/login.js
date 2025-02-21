@@ -1,4 +1,4 @@
-import { errorNotifier } from "../../../component/notifier";
+import { errorNotifier, successNotifier } from "../../../component/notifier";
 import { APP_CONSTANTS } from "../../../constants/app";
 import axiosInstance, { AUTH_ROUTES } from "../../../service/api";
 import {
@@ -12,10 +12,11 @@ export const login = async (payload, setLoading) => {
       const {
         data: { data },
       } = await axiosInstance.post(AUTH_ROUTES.LOGIN, payload);
-      console.log(data?.token,"kkk")
-      console.log(data?.token?.token,"000")
-      setLocalStorageString(APP_CONSTANTS.token, data?.token?.token);
+      
+      // console.log(data?.token,"kkk")
+      setLocalStorageString(APP_CONSTANTS.token, data?.token);
       setLocalStorageItem(APP_CONSTANTS.user, data);
+      successNotifier("Login Successful")
       window.location.reload();
       setLoading(false);
     } catch (e) {

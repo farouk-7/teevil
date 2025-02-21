@@ -4,7 +4,8 @@ import { APP_CONSTANTS } from "../constants/app";
 export * from "./routes.constants";
 
 export const baseURL =
-  "https://event-management-backend-n73s.onrender.com/api/v1";
+  // "https://backend.myeventree.com/api/v1"
+  "https://teevil-api.onrender.com/api/v1"
 
 const axiosInstance = axios.create({
   baseURL,

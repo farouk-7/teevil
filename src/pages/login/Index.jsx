@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Flex,
+  FormLabel,
   Image,
   Input,
   InputGroup,
@@ -20,12 +21,15 @@ import { GiMailShirt } from "react-icons/gi";
 import useForm from "../../hooks/useForm";
 import { IoIosEye, IoIosEyeOff } from "react-icons/io";
 import { login } from "./service/login";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
+import logo from "../../assets/logo.png"
+import { _COLORS } from "../../constants/colors";
 
 const Login = () => {
-  const navigate = useNavigate()
+
+  const navigate = useNavigate();
   const initialValues = {
     email: "",
     password: "",
@@ -41,125 +45,106 @@ const Login = () => {
     setLoading(true);
     const payload = { ...formValues };
     await login(payload, setLoading);
-    
   };
 
   return (
-    <Flex h={"100vh"} justify={"space-between"} overflow={"hidden"}>
-      <Flex
-        justifyContent="center"
-        alignItems={"center"}
-        h={"100vh"}
-        margin={"0 auto"}
-        flexDirection={"column"}
-      >
-        <Box>
-          <Image src={loogo} height={"100px"} />
+    <Flex
+      h={"100vh"}
+      justify={"space-between"}
+      overflow={"hidden"}
+      bg={"#000"}
+      color={"#fff"}
+    >
+      <Box flex={1}>
+        <Box px={"50px"} mt="20px">
+          <Image src={logo} h={"50px"} />
         </Box>
-        <Box mt="30px">
-          <Text fontSize={"40px"} fontWeight={"bold"}>
-            Log In
+        <Box px={"50px"} py={"50px"}>
+          <Text fontSize={"30px"} fontWeight={"bold"} pb={"20px"}>
+            Welcome Back To TeeVill !
           </Text>
-          <Box my="30px">
-            <InputGroup>
-              <InputLeftElement pointerEvents="none">
-                <MdOutlineMailOutline color="gray" />
-              </InputLeftElement>
-              <Input
-               name="email"
-               type="email"
-               value={formValues?.email}
-               onChange={handleChange}
+          <Text fontSize={"20px"} fontWeight={400} maxW={"700px"}>
+            Kindly fill out your details and proceed to your dashboard
+          </Text>
+          <Box mt="50px">
+            <Flex align={"center"} gap={"50px"} >
+              <Box flex={1}>
+              <FormInput
+                label={"Email Address"}
+                value={formValues?.email}
+                handleChange={handleChange}
+                name={"email"}
               />
-            </InputGroup>
-          </Box>
-          <Box my="20px">
-            <InputGroup>
-              <InputLeftElement pointerEvents="none">
-                <IoKeyOutline color="gray" />
-              </InputLeftElement>
-              <Input
-                name="password"
-                w={"500px"}
-                type={show ? "text" : "password"}
-                value={formValues?.password}
-                onChange={handleChange}
-              />
-               <InputRightElement>
-                  <Button bg={"none"} size={"40px"} onClick={handleClick}>
-                    {show ? (
-                      <IoIosEyeOff color={"#666666"} />
-                    ) : (
-                      <IoIosEye color={"#666666"} />
-                    )}
-                  </Button>
-                </InputRightElement>
-            </InputGroup>
-          </Box>
-          <Flex mt={"20px"}>
-            <CustomBtn handleClick={handleLogin} loading={loading} text={"Login"} width={"full"} bg={"#65129A"} />
-          </Flex>
-          <Flex justifyContent={"flex-end"} mt="10px">
-            <Text color={"#7B5DD6"} fontWeight={600} cursor={"pointer"} >Forgot Password ?</Text>
-          </Flex>
-
-
-
-
-          <Flex
-            justifyContent={"space-between"}
-            alignItems={"center"}
-            gap={"30px"}
-            my={"10px"}
-          >
-            <Box h={"2px"} border={"1px solid #E4E6EC"} w={"full"}></Box>
-            <Text color={"#969AB8"}>or</Text>
-            <Box h={"2px"} border={"1px solid #E4E6EC"} w={"full"}></Box>
-          </Flex>
-          <Flex
-            justifyContent={"space-between"}
-            alignItems={"center"}
-            gap={"30px"}
-          >
-            <Box width={"full"}>
+              </Box>
+              <Box  flex={1}>
+                <FormLabel>Password</FormLabel>
+                <InputGroup>
+                  <Input
+                    name="password"
+                    focusBorderColor="#65129A"
+                    placeholder="enter password"
+                    type={show ? "text" : "password"}
+                    value={formValues?.password}
+                    onChange={handleChange}
+                  />
+                  <InputRightElement>
+                    <Button bg={"none"} size={"40px"} onClick={handleClick}>
+                      {show ? (
+                        <IoIosEyeOff color={"#666666"} size={20} />
+                      ) : (
+                        <IoIosEye color={"#666666"} size={20} />
+                      )}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </Box>
+            </Flex>
+            <Flex justify={"flex-end"} gap={"50px"} mt="20px">
+              <Text fontWeight={500} color={_COLORS?.brand} cursor={"pointer"}
+              onClick={() => {
+                navigate("/reset-password");
+              }}
+              >Forgotten Password ?</Text>
+            </Flex>
+            <Flex my={"30px"}>
               <CustomBtn
+                text={"Proceed To Dashboard"}
                 width={"full"}
-                fontWeight={"bold"}
-                color={"#000"}
-                text={"Google"}
-                childComp={<FcGoogle size={30} />}
-                bg={"none"}
-                border={"1px solid #E0E2E9"}
+                handleClick={handleLogin}
+                loading={loading}
               />
-            </Box>
-
-            <Box width={"full"}>
-              <CustomBtn
-                width={"full"}
-                fontWeight={700}
-                color={"#000"}
-                text={"Facebook"}
-                childComp={<FaFacebook size={30} color="blue"/>}
-                bg={"none"}
-                border={"1px solid #E0E2E9"}
-              />
-            </Box>
-          </Flex>
-          <Flex justifyContent={"flex-end"} mt="15px">
-            <Text
-              color={"#7B5DD6"}
-              cursor={"pointer"}
-              fontWeight={600}
-              onClick={()=>{
-                navigate("/register")
-              }} 
-            >
-              Don't have an Account? Sign Up
-            </Text>
-          </Flex>
+            </Flex>
+            <Flex my="20px" align={"center"} gap={"30px"}>
+              <Box h={"2px"} bg={"white"} w={"full"}></Box>
+              <Box>
+                <Text fontWeight={500}>Or</Text>
+              </Box>
+              <Box h={"2px"} bg={"white"} w={"full"}></Box>
+            </Flex>
+            <Flex align={"center"} gap={"50px"}>
+              <CustomBtn text={"Continue with Google"} width={"full"} bg={"none"} border={"1px solid #fff"}/>
+              <CustomBtn text={"Continue with Apple"} width={"full"} bg={"none"} border={"1px solid #fff"}/>
+            </Flex>
+            <Flex justifyContent={"center"} mt="30px" gap={"10px"}>
+              <Text color={"#fff"} fontWeight={600}>
+                Don't have an Account yet ?{" "}
+              </Text>
+              <Text
+                color={_COLORS?.brand}
+                cursor={"pointer"}
+                fontWeight={600}
+                onClick={() => {
+                  navigate("/register");
+                }}
+              >
+                Register Now
+              </Text>
+            </Flex>
+          </Box>
         </Box>
-      </Flex>
-      <Box>
+      </Box>
+
+      <Box flex={1}>
         <Image src={loginBg} h={"auto"} />
       </Box>
     </Flex>

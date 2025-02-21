@@ -20,9 +20,9 @@ export const changePassword= async (payload)=>{
       }
 }
 
-export const updateProfileImage = async (payload) => {
+export const updateProfileImage = async (vendorId, payload) => {
   try {
-    await axiosInstance.put(AUTH_ROUTES.UPDATE_IMAGE(payload?._id), payload, {
+    await axiosInstance.put(AUTH_ROUTES.UPDATE_IMAGE(vendorId), payload, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

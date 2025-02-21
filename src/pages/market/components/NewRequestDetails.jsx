@@ -15,8 +15,6 @@ const NewRequestDetails = () => {
   const location =  useLocation()
   const state = location?.state
 
-  console.log(state,"Baloranking")
-
   const [tabToShow, setTabToShow] = useState("counter");
   return (
     <Box>
@@ -32,11 +30,11 @@ const NewRequestDetails = () => {
           <Text color={"#717171"} fontWeight={"bold"}>
            {state?.orderId || "Nil"}
           </Text>
-          <Text fontWeight={"bold"} fontSize={"25px"}>
+          <Text fontWeight={"bold"} fontSize={["20px","20px","20px","25px"]}>
             {formatToNaira(state?.budget)}
           </Text>
         </Flex>
-        <Text fontSize={"25px"} fontWeight={"bold"} py={"20px"}>
+        <Text fontSize={["20px","20px","20px","25px"]} fontWeight={"bold"} py={"20px"}>
           {state?.serviceTitle || "Nil"}
         </Text>
         <Text>
@@ -55,19 +53,19 @@ const NewRequestDetails = () => {
           justifyContent={"space-between"}
           align={"center"}
         >
-          <Flex flexDirection={"column"} gap={"10px"}>
+          <Flex flexDirection={"column"} gap={"10px"} fontSize={["14px","14px","14px","18px"]}>
             <Text color={"#A0AEC0"}>Event Date</Text>
             <Text fontWeight={"bold"}>{dayjs(state?.eventDate).format("DD MMM YYYY") || "Nil"}</Text>
           </Flex>
-          <Flex flexDirection={"column"} gap={"10px"}>
+          <Flex flexDirection={"column"} gap={"10px"} fontSize={["14px","14px","14px","18px"]}>
             <Text color={"#A0AEC0"}>Event Location</Text>
             <Text fontWeight={"bold"}>{state?.location || "Nil"}</Text>
           </Flex>
-          <Flex flexDirection={"column"} gap={"10px"}>
+          <Flex flexDirection={"column"} gap={"10px"} fontSize={["14px","14px","14px","18px"]}>
             <Text color={"#A0AEC0"}>Client</Text>
             <Text fontWeight={"bold"}>{state?.requesterId?.fullName || "Nil"}</Text>
           </Flex>
-          <Flex flexDirection={"column"} gap={"10px"}>
+          <Flex flexDirection={"column"} gap={"10px"} fontSize={["14px","14px","14px","18px"]}>
             <Text color={"#A0AEC0"}>Deadline</Text>
             <Text fontWeight={"bold"}>{dayjs(state?.deadline).format("DD MMM YYYY") || "Nil"}</Text>
           </Flex>
@@ -116,7 +114,7 @@ const NewRequestDetails = () => {
         </Tabs>
         <Box>
           {tabToShow === "counter" ? (
-            <CounterProposal />
+            <CounterProposal state={state}/>
           ) : (
               <AcceptRequest state = {state} />
           )}

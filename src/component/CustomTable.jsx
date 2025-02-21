@@ -267,7 +267,7 @@ export const Pagination = ({ updateTable, length = 0, total = 0 }) => {
 
   const ARROW_STYLE = {
     borderRadius: "3px",
-    bg: _COLORS.pink,
+    bg: _COLORS.brandPink,
     fontSize: "1.5em",
     color: "#fff",
     _hover: { background: "transparent" },
