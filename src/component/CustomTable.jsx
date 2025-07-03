@@ -20,6 +20,7 @@ import {
   TabList,
   InputRightElement,
   Spinner,
+  Divider,
 } from "@chakra-ui/react";
 
 import { FiDownload } from "react-icons/fi";
@@ -144,14 +145,17 @@ function CustomTable({ head = [], filter, DBdata, DBsearchID, api, children }) {
 
   return (
     <Box
-      bg="#fff"
+      bg="#2C2C2C"
       boxShadow={"sm"}
       borderRadius={"20px"}
-      pt="10px"
-      maxH={"420px"}
+      // pt="10px"
+      // pb="50px"
+      color={"white"}
+      maxH={"450px"}
       overflow={"scroll"}
       // maxW={["100%", "100%", "100%", "800px", "100%"]}
-      className="custom-table-container">
+      className="custom-table-container"
+      >
       <style>
         {`
           /* Hide scrollbar for Chrome, Safari and Opera */
@@ -172,19 +176,20 @@ function CustomTable({ head = [], filter, DBdata, DBsearchID, api, children }) {
         <style>
           {`
           .css-tdnrhj tr:nth-of-type(odd) td {
-            background: #F8F8F8 ;
+            background: #2C2C2C;
         }
           `}
         </style>
-        <Table variant="striped" size="lg">
+        <Table variant={""} size="lg" >
           <Thead>
             <Tr>
               {head?.map((data) => (
                 <Th
-                  // p="15px"
-                  color={_COLORS.black}
-                  fontWeight={"bold"}
-                  fontSize={".82em"}
+                  py="30px"
+                  color={_COLORS.white}
+                  bg="#2C2C2C"
+                  fontWeight={"bold"} 
+                  fontSize={"16px"}
                   key={data}
                   textTransform="capitalize">
                   {data}
@@ -193,12 +198,19 @@ function CustomTable({ head = [], filter, DBdata, DBsearchID, api, children }) {
             </Tr>
           </Thead>
 
-          <Tbody fontWeight={"500"} fontSize={".92em"}>
+          <Tbody 
+          fontWeight={"500"} 
+          fontSize={".92em"} 
+          // pos={"sticky"}  
+          zIndex={1} 
+          top={50}  >
+           
             {
               // typeof filter === "object" ?
               children(filteredData)
               // : children
             }
+        
           </Tbody>
         </Table>
       </TableContainer>

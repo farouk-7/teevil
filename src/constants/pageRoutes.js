@@ -1,7 +1,12 @@
 export const AUTHENTICATED_ROUTES = {
   market: "/",
   setting:"/setting",
-  profile:"/profile",
+  jobs:"/jobs",
+  proposals:'/proposals',
+  messages:"/messages",
+  earns:"/earns",
+  projects:"/project",
+  // profile:"/profile",
 
 
   

@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Flex,
   Image,
@@ -8,7 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React from "react";
-import back from "../assets/back.png/";
+// import back from "../assets/back.png/";
 import { _COLORS } from "../constants/colors";
 import { BiSearch } from "react-icons/bi";
 import { FaUser } from "react-icons/fa";
@@ -21,6 +22,7 @@ import { clearLocalStorage, getLocalStorageItem } from "../utils/localStorage";
 import { APP_CONSTANTS } from "../constants/app";
 import { AUTHENTICATED_ROUTES } from "../constants/pageRoutes";
 import { useGetState } from "../GlobalStateContext/useGetState";
+import SearchField from "./SearchField";
 
 const CardHeader = ({ children }) => {
   const {state} = useGetState()
@@ -29,77 +31,99 @@ const CardHeader = ({ children }) => {
   const location = useLocation();
   const pathname = location.pathname;
   return (
-    <Box
-      w={"full"}
-      height={["fit-content","fit-content","fit-content","300px"]}
-      bg={_COLORS?.brand}
-      bgImage={wave}
-      backgroundPosition={"center"}
-      backgroundSize={"cover"}
-      backgroundRepeat={"no-repeat"}
-      p={"20px"}
-      borderRadius={"10px"}
-    >
-      <Flex justify={"space-between"} align={"center"}>
-        <Box>
-          <Flex gap={"15px"} align={"start"}>
-            <Box bg={"white"} p={"7px"} borderRadius={"4px"}>
-              <Image src={back} />
-            </Box>
+    // <Box
+    //   w={"full"}
+    //   height={["fit-content","fit-content","fit-content","300px"]}
+    //   bg={_COLORS?.brand}
+    //   bgImage={wave}
+    //   backgroundPosition={"center"}
+    //   backgroundSize={"cover"}
+    //   backgroundRepeat={"no-repeat"}
+    //   p={"20px"}
+    //   borderRadius={"10px"}
+    // >
+    //   <Flex justify={"space-between"} align={"center"}>
+    //     <Box>
+    //       <Flex gap={"15px"} align={"start"}>
+    //         <Box bg={"white"} p={"7px"} borderRadius={"4px"}>
+    //           <Image src={back} />
+    //         </Box>
 
-            <Box color={"#fff"}>
-              <Text>Pages/</Text>
+    //         <Box color={"#fff"}>
+    //           <Text>Pages/</Text>
 
-              <Text fontWeight={"semibold"}> {getPageTitle(pathname)}</Text>
-            </Box>
-          </Flex>
-        </Box>
+    //           <Text fontWeight={"semibold"}> {getPageTitle(pathname)}</Text>
+    //         </Box>
+    //       </Flex>
+    //     </Box>
 
-        <Box>
-          <Flex align={"center"} gap={"30px"}>
+    //     <Box>
+    //       <Flex align={"center"} gap={"30px"}>
 
-            <Box display={["none","none","none","block"]}>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <BiSearch color="gray.300" />
-                </InputLeftElement>
-                <Input
-                  type="text"
-                  bg={_COLORS.white}
-                  borderRadius={"20px"}
-                  focusBorderColor="#7B5DD6"
-                />
-              </InputGroup>
-            </Box>
-            <Flex color={_COLORS.white} align={"center"} gap={"5px"}>
-              <FaUser color={_COLORS.white} />
-              <Text fontWeight={500}>{state?.fullName}</Text>
-            </Flex>
-            <Text
-              color={_COLORS.white}
-              fontWeight={500}
-              cursor={"pointer"}
-              onClick={() => {
-                clearLocalStorage();
-                window.location.reload();
-              }}
-            >
-              sign out
-            </Text>
-            <Link to={AUTHENTICATED_ROUTES.setting}>
-             <Box>
-              <IoSettingsSharp color={_COLORS.white} />
-            </Box>
-            </Link>
+    //         <Box display={["none","none","none","block"]}>
+    //           <InputGroup>
+    //             <InputLeftElement pointerEvents="none">
+    //               <BiSearch color="gray.300" />
+    //             </InputLeftElement>
+    //             <Input
+    //               type="text"
+    //               bg={_COLORS.white}
+    //               borderRadius={"20px"}
+    //               focusBorderColor="#7B5DD6"
+    //             />
+    //           </InputGroup>
+    //         </Box>
+    //         <Flex color={_COLORS.white} align={"center"} gap={"5px"}>
+    //           <FaUser color={_COLORS.white} />
+    //           <Text fontWeight={500}>{state?.fullName}</Text>
+    //         </Flex>
+    //         <Text
+    //           color={_COLORS.white}
+    //           fontWeight={500}
+    //           cursor={"pointer"}
+    //           onClick={() => {
+    //             clearLocalStorage();
+    //             window.location.reload();
+    //           }}
+    //         >
+    //           sign out
+    //         </Text>
+    //         <Link to={AUTHENTICATED_ROUTES.setting}>
+    //          <Box>
+    //           <IoSettingsSharp color={_COLORS.white} />
+    //         </Box>
+    //         </Link>
            
-            <Box>
-              <FaBell color={_COLORS.white} />
+    //         <Box>
+    //           <FaBell color={_COLORS.white} />
+    //         </Box>
+    //       </Flex>
+    //     </Box>
+    //   </Flex>
+    //   {children}
+    // </Box>
+    <Flex align={"center"} justify={"space-between"} mt="0px">
+            <Box w={"50%"}>
+              <SearchField placeholder={"search project title"} />
             </Box>
+    
+            <Flex align={"center"} gap={"20px"}>
+              <Box>
+                <FaBell size={25} color="#fff" />
+              </Box>
+              <Flex align={"center"} gap={"10px"}>
+                <Avatar src={state?.profileImage} name={state?.firstName} size={"md"}/>
+                <Box>
+                  <Text color={"#fff"} fontWeight={"bold"}>
+                    {state?.firstName + " " + state?.lastName}
+                  </Text>
+                  <Text color={"#fff"} fontSize={"13px"}>
+                    {state?.email}
+                  </Text>
+                </Box>
+              </Flex>
+            </Flex>
           </Flex>
-        </Box>
-      </Flex>
-      {children}
-    </Box>
   );
 };
 

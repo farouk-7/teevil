@@ -10,6 +10,7 @@ function FormInput({
   mt,
   mb,
   color,
+  key,
   focusBorderColor,
   lines,
   labelColor,
@@ -23,6 +24,8 @@ function FormInput({
       {!lines ? (
         <Input
           type={type}
+          w={"full"}
+          key={key}
           name={name}
           value={value}
           focusBorderColor={focusBorderColor}
@@ -32,7 +35,7 @@ function FormInput({
         />
       ) : (
         <Textarea
-          color={"black"}
+          color={color || "white"}
           type={type}
           focusBorderColor={focusBorderColor}
           name={name}

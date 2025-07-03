@@ -1,9 +1,7 @@
 import { Box, Flex, Image, Input, Text } from "@chakra-ui/react";
-import React, { useRef, useState } from "react";
-import { IoChevronBackSharp } from "react-icons/io5";
+import React, { useEffect, useRef, useState } from "react";
 import FormInput from "../../component/FormInput";
 import { CustomBtn } from "../../component/CustomBtn";
-import loogo from "../../assets/loogo.png";
 import VCimage from "../../assets/VCimage.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -12,11 +10,11 @@ import { resendOTP, sendOtp } from "./services/Index";
 import { useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png"
 import { _COLORS } from "../../constants/colors";
+import ImgBg from "../../assets/ImgBg.png"
 
 const VerifyCode = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  // const email = location?.state;
   // console.log(datas,"ppeoe")
   const { email } = useParams();
   console.log(email,"oopr")
@@ -24,6 +22,10 @@ const VerifyCode = () => {
   const [verificationCode, setVerificationCode] = useState(["", "", "", "","",""]);
   const inputRefs = useRef([]);
 
+  // useEffect(() => {
+  //   // Set a generic or custom page title
+  //   document.title = "Email Verification";
+  // }, []);
   // const initialValues = {
   //   otp: verificationCode,
   //   email: email,
@@ -74,8 +76,9 @@ const VerifyCode = () => {
     console.log(payload, "ry/");
   };
   const handleResend = async () => {
-    setLoading(true);
-    const payload = { email};
+    const payload = {
+      email: String(email),  // Ensure it's a string
+    };
     await resendOTP(payload);
   };
   return (
@@ -83,7 +86,7 @@ const VerifyCode = () => {
       h={"100vh"}
       justify={"space-between"}
       flexDir={["column","column","column","row"]}
-      overflow={"hidden"}
+      // overflow={"hidden"}
       bg={"#000"}
       color={"#fff"}
     >
@@ -113,19 +116,19 @@ const VerifyCode = () => {
       
     </Box> */}
       <Box flex={1}>
-         <Box  px={"50px"} mt="20px">
+         <Box  px={["20px","20px","20px","50px"]} mt="20px">
                  <Image src={logo} h={"50px"}/>
           </Box>
-        <Box px={"50px"} py={"50px"}>
+        <Box px={["20px","20px","20px","50px"]} py={["50px","50px","50px","100px"]}>
           <Text fontSize={"30px"} fontWeight={"bold"} pb={"20px"}>
             Email Verification
           </Text>
-          <Text fontSize={"20px"} fontWeight={400} maxW={"700px"}>
+          <Text fontSize={"20px"} fontWeight={400} maxW={"700px"} color={"#E9FCFF7D"}>
            We have sent a verification code to your email. Please enter the code below to confirm your email address and proceed
           </Text>
 
 
-          <Flex align="center" justify="center" my={20}>
+          <Flex align="center" justify="center" my={[10,10,10,20]}>
             {verificationCode.map((value, index) => (
               <Input
                 key={index}
@@ -136,10 +139,10 @@ const VerifyCode = () => {
                 value={value}
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
-                width="80px"
-                height="80px"
+                width={["60px","60px","60px","80px"]}
+                height={["60px","60px","60px","80px"]}
                 textAlign="center"
-                marginX="20px"
+                marginX={["10px","10px","10px","20px"]}
                 fontWeight="bold"
                 color={_COLORS?.brand}
                 fontSize="24px"
@@ -151,7 +154,7 @@ const VerifyCode = () => {
             <CustomBtn text={"Verify Email"} width={"full"}  loading={isUpdateMutating}  handleClick={handleSubmit}/>
           </Flex>
 
-          <Flex mt="50px" justify={"center"} fontWeight={500} gap={"10px"} fontSize={"20px"}>
+          <Flex mt={["20px","20px","20px","50px"]} justify={"center"} fontWeight={500} gap={"10px"} fontSize={"20px"} color={"#E9FCFF7D"}>
             Didn&apos;t receive any code?{" "}
             <Text
               cursor={"pointer"}
@@ -168,7 +171,7 @@ const VerifyCode = () => {
       </Box>
 
       <Box flex={1}>
-        <Image src={VCimage} w={"full"} h={"100vh"} />
+        <Image src={ImgBg} w={"full"} h={["70vh","70vh","70vh","100vh"]} />
       </Box>
     </Flex>
   );

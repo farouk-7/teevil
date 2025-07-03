@@ -1,30 +1,26 @@
-import {
-  Box,
-  Flex,
-  Image,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
 
 import FormInput from "../../component/FormInput";
 import { CustomBtn } from "../../component/CustomBtn";
-import vase from "../../assets/vase.png";
 import useForm from "../../hooks/useForm";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { resetPassword } from "./services/Index";
 import { useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import { useNavigate } from "react-router-dom";
 import { _COLORS } from "../../constants/colors";
+import loginBg from "../../assets/loginBg.png";
+import { GoArrowLeft } from "react-icons/go";
 
 const ResetPassword = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const data = location?.state;
   console.log(data, "opeoluwa");
   const queryClient = useQueryClient();
   const initialValues = {
     email: "",
-    // passowrd: "",
-    // confirmPassword: "",
   };
   const { handleChange, formValues } = useForm(initialValues);
 
@@ -51,16 +47,31 @@ const ResetPassword = () => {
   return (
     <Flex
       h={"100vh"}
+      flexDir={["column", "column", "column", "row"]}
       justify={"space-between"}
-      overflow={"hidden"}
+      // overflow={"hidden"}
       bg={"#000"}
       color={"#fff"}
     >
-      <Box flex={1}>
-        <Box px={"50px"} mt="20px">
+      <Box flex={1} px={["20px", "20px", "20px", "100px"]}>
+        <Box mt="20px">
           <Image src={logo} h={"50px"} />
         </Box>
-        <Box px={"50px"} py={"50px"}>
+        <Flex align={"center"} gap={"20px"} cursor={"pointer"}  onClick={() => {
+              navigate("/login");
+            }}> 
+          <GoArrowLeft size={25}/>
+          <Text
+            py={"30px"}
+            cursor={"pointer"}
+            fontWeight={"bold"}
+            fontSize={"24px"}
+           
+          >
+            Back To Login
+          </Text>
+        </Flex>
+        <Box py={["20px", "20px", "20px", "50px"]}>
           <Text fontSize={"30px"} fontWeight={"bold"} pb={"20px"}>
             Forgotten Password
           </Text>
@@ -79,22 +90,22 @@ const ResetPassword = () => {
                 />
               </Box>
             </Flex>
-           
+
             <Flex mt={"70px"}>
               <CustomBtn
                 text={"Proceed"}
                 width={"full"}
                 handleClick={handleSubmit}
                 loading={isUpdateMutating}
+                disabled={!formValues?.email}
               />
             </Flex>
-          
           </Box>
         </Box>
       </Box>
 
       <Box flex={1}>
-        <Image src={vase} w={"full"} h={"100vh"} />
+        <Image src={loginBg} w={"full"} h={["70vh", "70vh", "70vh", "100vh"]} />
       </Box>
     </Flex>
   );

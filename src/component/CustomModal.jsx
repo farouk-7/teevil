@@ -64,7 +64,7 @@ const CustomModal = ({
         <ModalContent bg={bg || "#fff"} {...contentProps2}>
           <ModalHeader color={headerColor}> {header}</ModalHeader>
           {/* <Divider /> */}
-          {!noCloseBtn && <ModalCloseButton />}
+          {!noCloseBtn && <ModalCloseButton color={"#fff"}/>}
 
           <ModalBody mb="10px">{childrenWithProps}</ModalBody>
         </ModalContent>

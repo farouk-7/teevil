@@ -5,7 +5,7 @@ export * from "./routes.constants";
 
 export const baseURL =
   // "https://backend.myeventree.com/api/v1"
-  "https://teevil-api.onrender.com/api/v1"
+  "https://teevil-api-1.onrender.com/api/v1"
 
 const axiosInstance = axios.create({
   baseURL,
@@ -30,6 +30,7 @@ export const axiosInstanceMultipart = axios.create({
 const addTokenToRequest = async (req) => {
   const token = sessionStorage.getItem(APP_CONSTANTS.token);
   req.headers.Authorization = `Bearer ${token}`;
+  // req.headers.jwt = token; // Add token as 'jwt' header
   return req;
 };
 

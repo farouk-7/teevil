@@ -14,21 +14,24 @@ export const CustomBtn = ({
   height,
   handleClick,
   loading,
+  radius,
   type,
   disabled,
   fontSize,
   p,
   boxShadow,
+  rightIcon,
   ...props
 }) => {
   return (
     <Button
       leftIcon={childComp}
+      rightIcon={rightIcon}
       // width="100%"
       color={color || "white"}
       bg={bg || _COLORS.brand}
-      fontWeight={"none" || fontWeight}
-      borderRadius={"7px"}
+      fontWeight={fontWeight}
+      borderRadius={radius || "7px"}
       p={p}
       boxShadow={boxShadow}
       height={height}

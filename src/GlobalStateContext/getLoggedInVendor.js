@@ -2,13 +2,13 @@ import { errorNotifier, successNotifier } from "../component/notifier";
 import axiosInstance, {AUTH_ROUTES} from "../service/api";
 
 
-export const getVendorDetails = async (setVendorData) => {
+export const getUserDetails = async (setUserData) => {
     try {
       const {
         data: { data },
-      } = await axiosInstance.get(AUTH_ROUTES.GET_LOGGED_IN_VENDOR);
-      setVendorData(data);
-      console.log("Vendor DATA", data);
+      } = await axiosInstance.get(AUTH_ROUTES.GET_LOGGED_IN_USER);
+      setUserData(data);
+      console.log("USER DATA", data);
       return data;
     } catch (e) {
       if (e?.response) {

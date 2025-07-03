@@ -9,35 +9,37 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  Select,
   Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosEye, IoIosEyeOff } from "react-icons/io";
-import { IoKeyOutline } from "react-icons/io5";
-import { MdOutlineMailOutline } from "react-icons/md";
 import { CustomBtn } from "../../component/CustomBtn";
-import loginBg from "../../assets/loginBg.png";
-import loogo from "../../assets/loogo.png";
+import ImgBg from "../../assets/ImgBg.png";
 import useForm from "../../hooks/useForm";
 import { useNavigate } from "react-router-dom";
-import { RiAccountPinCircleLine } from "react-icons/ri";
-import { BsTelephone } from "react-icons/bs";
-import { PiAddressBookThin } from "react-icons/pi";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
-import { registerUser} from "./service/register";
+import {
+  registerClient,
+  registerFreelancer,
+  // registerUser,
+} from "./service/register";
 import FormInput from "../../component/FormInput";
-import logo from "../../assets/logo.png"
+import logo from "../../assets/logo.png";
 import { _COLORS } from "../../constants/colors";
+import { FaApple } from "react-icons/fa";
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [tabToShow, setTabToShow] = useState("freelancer");
   const initialValues = {
     firstName: "",
-    lastName:"",
+    lastName: "",
     phone: "",
     email: "",
     password: "",
+    accountType: tabToShow === "freelancer" ? "freelancer" : "client",
     // confirmPassword: "",
   };
 
@@ -47,44 +49,145 @@ const Register = () => {
   const [show1, setShow1] = useState(false);
   const handleClick1 = () => setShow1(!show1);
 
-  const { handleChange, formValues } = useForm(initialValues);
+  const { handleChange, formValues, setFormValues } = useForm(initialValues);
+
+  // Update formValues when tabToShow changes
+  useEffect(() => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      accountType: tabToShow === "freelancer" ? "freelancer" : "client",
+    }));
+  }, [tabToShow, setFormValues]);
+
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
     const payload = { ...formValues };
     const email = formValues?.email;
-    await registerUser(payload, setLoading, email, navigate);
+    console.log(payload,"og")
+    tabToShow === "freelancer"
+      ? await registerFreelancer(payload, setLoading, email, navigate)
+      : await registerClient(payload, setLoading, email, navigate);
   };
   return (
-    <Flex h={"100vh"} justify={"space-between"} overflow={"hidden"} bg={"black"} color={"#fff"}>
-      <Box flex={1}>
-        <Box  px={"50px"} mt="20px">
-         <Image src={logo} h={"50px"}/>
+    <Flex
+      // h={"100vh"}
+      justify={"space-between"}
+      flexDir={["column", "column", "column", "row"]}
+      // overflow={"hidden"}
+      bg={"black"}
+      // gap={["30px","30px","30px","0px"]}
+      color={"#fff"}
+    >
+      <Box flex={1} px={["20px","20px","20px","100px"]} >
+        <Box mt="20px">
+          <Image src={logo} h={"40px"} />
         </Box>
-        <Box px={"50px"} py={"20px"} >
+
+        <Tabs variant="unstyled" mt="10px">
+          <TabList
+            bg={"#2C2C2C"}
+            p={"5px"}
+            borderRadius={"10px"}
+            w={"fit-content"}
+            gap={"40px"}
+          >
+            <Tab
+              _selected={{ color: "#000", bg: "#F5F5F5" }}
+              borderRadius={"10px"}
+              px="30px"
+              fontWeight={"bold"}
+              onClick={() => {
+                setTabToShow("freelancer");
+              }}
+            >
+              Freelancers
+            </Tab>
+            <Tab
+              _selected={{ color: "#000", bg: "#F5F5F5" }}
+              borderRadius={"10px"}
+              px="30px"
+              fontWeight={"bold"}
+              onClick={() => {
+                setTabToShow("client");
+              }}
+            >
+              Clients
+            </Tab>
+          </TabList>
+        </Tabs>
+
+        <Box py={"10px"}>
           <Text fontSize={"30px"} fontWeight={"bold"} pb={"10px"}>
             Welcome To TeeVill
           </Text>
-          <Text fontSize={"20px"} fontWeight={400} maxW={"700px"}>
-            Kindly fill out your details and proceed to the next step. Your
-            journey starts here
-          </Text>
-          <Box mt="20px">
+          {tabToShow === "freelancer" ? (
+            <Text
+              fontSize={"20px"}
+              fontWeight={400}
+              maxW={"700px"}
+              color={"#E9FCFF7D"}
+            >
+              Kindly fill out your details and proceed to the next step. Your
+              journey starts here
+            </Text>
+          ) : (
+            <Text
+              fontSize={"20px"}
+              fontWeight={400}
+              maxW={"700px"}
+              color={"#E9FCFF7D"}
+            >
+              Kindly fill out your details and proceed to the next step. Get the
+              right talent for your project
+            </Text>
+          )}
+
+          <Box mt="10px">
             <Flex align={"center"} gap={"50px"}>
-              <FormInput label={"First Name"} value={formValues?.firstName} handleChange={handleChange} name="firstName" />
-              <FormInput label={"Last Name"} value={formValues?.lastName} handleChange={handleChange} name="lastName"/>
+              <FormInput
+                focusBorderColor={_COLORS?.brand}
+                border={"1px solid #E9FCFF7D"}
+                label={"First Name"}
+                value={formValues?.firstName}
+                handleChange={handleChange}
+                name="firstName"
+              />
+              <FormInput
+                focusBorderColor={_COLORS?.brand}
+                border={"1px solid #E9FCFF7D"}
+                label={"Last Name"}
+                value={formValues?.lastName}
+                handleChange={handleChange}
+                name="lastName"
+              />
             </Flex>
             <Flex align={"center"} gap={"50px"} mt="20px">
-              <FormInput label={"Email Address"} value={formValues?.email} handleChange={handleChange} name="email"/>
-              <FormInput label={"Phone Number"} value={formValues?.phone} handleChange={handleChange} name="phone" />
+              <FormInput
+                border={"1px solid #E9FCFF7D"}
+                label={"Email Address"}
+                focusBorderColor={_COLORS?.brand}
+                value={formValues?.email}
+                handleChange={handleChange}
+                name="email"
+              />
+              <FormInput
+                border={"1px solid #E9FCFF7D"}
+                label={"Phone Number"}
+                focusBorderColor={_COLORS?.brand}
+                value={formValues?.phone}
+                handleChange={handleChange}
+                name="phone"
+              />
             </Flex>
             <Flex align={"center"} gap={"50px"} mt="20px">
-              <Box  flex={1}>
+              <Box flex={1}>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
                   <Input
                     name="password"
-                    focusBorderColor="#65129A"
+                    focusBorderColor={_COLORS?.brand}
+                    border={"1px solid #E9FCFF7D"}
                     placeholder="enter password"
                     type={show ? "text" : "password"}
                     value={formValues?.password}
@@ -105,7 +208,8 @@ const Register = () => {
                 <FormLabel>Confirm Password</FormLabel>
                 <InputGroup>
                   <Input
-                    focusBorderColor="#65129A"
+                    focusBorderColor={_COLORS?.brand}
+                    border={"1px solid #E9FCFF7D"}
                     name="confirmPassword"
                     placeholder="confirm password"
                     type={show1 ? "text" : "password"}
@@ -126,21 +230,49 @@ const Register = () => {
             </Flex>
           </Box>
           <Flex mt={"30px"}>
-            <CustomBtn text={"Register Now"} width={"full"} handleClick={handleRegister} loading={loading} />
+            <CustomBtn
+              text={"Register Now"}
+              width={"full"}
+              handleClick={handleRegister}
+              loading={loading}
+              disabled={
+                !formValues?.firstName ||
+                !formValues?.lastName ||
+                !formValues?.email ||
+                !formValues?.phone ||
+                !formValues?.password
+              }
+            />
           </Flex>
-          <Flex my="20px" align={"center"} gap={"30px"}>
-            <Box h={"2px"} bg={"white"} w={"full"}></Box>
+          <Flex my="10px" align={"center"} gap={"20px"}>
+            <Box h={"2px"} bg={"#E9FCFF7D"} w={"full"}></Box>
             <Box>
-              <Text fontWeight={500}>Or</Text>
+              <Text fontWeight={500} color={"#E9FCFF7D"}>
+                Or
+              </Text>
             </Box>
-            <Box h={"2px"} bg={"white"} w={"full"}></Box>
+            <Box h={"2px"} bg={"#E9FCFF7D"} w={"full"}></Box>
           </Flex>
-          <Flex align={"center"} gap={"50px"}>
-            <CustomBtn text={"Continue with Google"} width={"full"} bg={"none"} border={"1px solid #fff"}/>
-            <CustomBtn text={"Continue with Apple"} width={"full"}  bg={"none"} border={"1px solid #fff"}/>
+          <Flex align={"center"} flexDir={["column","column","column","row"]} gap={["20px","20px","20px","50px"]}>
+            <CustomBtn
+              childComp={<FcGoogle />}
+              text={"Continue with Google"}
+              width={"full"}
+              bg={"none"}
+              border={"1px solid #E9FCFF7D"}
+            />
+            <CustomBtn
+              childComp={<FaApple />}
+              text={"Continue with Apple"}
+              width={"full"}
+              bg={"none"}
+              border={"1px solid #E9FCFF7D"}
+            />
           </Flex>
           <Flex justifyContent={"center"} mt="20px" gap={"10px"}>
-            <Text color={"#fff"} fontWeight={600}>Already have an Account ? </Text>
+            <Text color={"#E9FCFF7D"} fontWeight={600}>
+              Already have an Account ?{" "}
+            </Text>
             <Text
               color={_COLORS?.brand}
               cursor={"pointer"}
@@ -155,8 +287,8 @@ const Register = () => {
         </Box>
       </Box>
 
-      <Box>
-        <Image src={loginBg} h={"auto"} />
+      <Box flex={1}>
+        <Image src={ImgBg} h={["70vh","70vh","70vh","100vh"]} w={"full"} />
       </Box>
     </Flex>
   );

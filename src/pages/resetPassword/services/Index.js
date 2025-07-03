@@ -6,7 +6,7 @@ export const resetPassword = async (payload) => {
     try {
       const {
         data: { data },
-      } = await axiosInstance.post(AUTH_ROUTES?.RESET_PASSWORD, payload);
+      } = await axiosInstance.post(AUTH_ROUTES?.FORGOT_PASSWORD, payload);
       successNotifier("Reset Successful")
       return data
     } catch (e) {

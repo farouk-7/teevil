@@ -7,7 +7,7 @@ export const sendOtp = async (payload) => {
       const {
         data: { data },
       } = await axiosInstance.post(AUTH_ROUTES?.SEND_OTP, payload);
-      successNotifier("Code Successfully sent")
+      successNotifier("Email Verifield")
     } catch (e) {
       setLoading(false);
       if (e.response) {
@@ -25,7 +25,7 @@ export const sendOtp = async (payload) => {
     try {
       const {
         data: { data },
-      } = await http.post(AUTH_ROUTES.RESEND_OTP,payload );
+      } = await axiosInstance.post(AUTH_ROUTES.RESEND_OTP, payload);
       successNotifier("OTP SENT TO YOUR EMAIL")
       // navigateTo(`/complete-profile?email=${email}`);
       return data;

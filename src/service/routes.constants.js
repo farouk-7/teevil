@@ -2,20 +2,53 @@ export const AUTH_ROUTES = {
   // AUTH
   LOGIN: "/user/login",
   SIGN_UP:"/user",
-  GET_LOGGED_IN_VENDOR: "/vendor/me",
-  CHANGE_PASSWORD:"/vendor/change-password",
-  FORGOT_PASSWORD:"/vendor/forgot-password",
+  GET_LOGGED_IN_USER: "/user/logged-in",
+  FORGOT_PASSWORD:"/user/forgot-password",
   SEND_OTP:"/user/verify-otp",
   RESEND_OTP: "/user/resend-otp",
-  RESET_PASSWORD: "/reset-password",
-  UPDATE_IMAGE:(vendorId)=>`/vendor/update/${vendorId}?image`,
+ UPLOAD_PIC: (id)=>`/user/${id}/profile-picture`,
+
+
+ //PROJECT
+ CREATE_PROJECT:"/project",
+ GET_PROJECTS:"/project",
+ DELETE_PROJECTS:(id)=>`/project/${id}`,
+ SHARE_PROJECT:"/project/invite",
+ GET_SPECIFIC_PROJECT:(id)=>`/project/${id}`,
+
+ //JOBS
+ GET_JOBS:"/job",
+
+ //SECTION
+ CREATE_SECTION:"/section",
 
 
   //MARKET ORDERS
   GET_MARKET_ORDERS:(status)=>`/service-request/?requestStatus=${status}`,
 
-  //QUESTIONS
+  //FREELANCE QUESTIONS
   GET_QUESTIONS:(type)=>`/user/questions/?type=${type}`,
+  POST_FIRST_QUESTION:(id)=>`/user/update-question/${id}`,
+
+  //CLIENT QUESTIONS
+  POST_CLIENT_FIRST_QUESTION:(id)=>`/user/client-type/${id}`,
+  GET_CLIENT_QUESTIONS:(type)=>`/user/client/questions/?type=${type}`,
+
+
+  //PROPOSALS
+  POST_PROPOSALS:"/proposal",
+  GET_PROPOSAL:"/proposal",
+
+  //EDIT USER
+  EDIT_USER:(id)=>`/user/edit-profile/${id}`,
+  CHANGE_PASSWORD:"/user/change-password",
+
+  //PAYMENT HISTORY
+  GET_PAYMENT_HISTORY:"/transaction",
+
+  //WITHDRAWAL
+  GET_WITHDRAWAL:"/api/v1/withdrawal",
+
 
   //ORDERS
   GET_ASSIGNED_ORDERS:(vendorId)=>`/service-request?acceptedResponse.vendor=${vendorId}`,

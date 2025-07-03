@@ -1,41 +1,96 @@
-import { Box, Flex } from '@chakra-ui/react'
-import React from 'react'
-import CardHeader from '../../component/CardHeader'
-import ServiceProviderCard from './components/ServiceProviderCard'
-import ServiceDescription from './components/ServiceDescription'
-import PersonalInfo from './components/PersonalInfo'
-import ManagePassword from './components/ManagePassword'
-import { useNavigate } from 'react-router-dom'
-import { CustomBtn } from '../../component/CustomBtn'
-import { useGetState } from '../../GlobalStateContext/useGetState'
+import { Avatar, Box, Flex, HStack, Text } from "@chakra-ui/react";
+import React, { useRef } from "react";
+import CardHeader from "../../component/CardHeader";
+import ServiceProviderCard from "./components/ServiceProviderCard";
+import ServiceDescription from "./components/ServiceDescription";
+import PersonalInfo from "./components/PersonalInfo";
+import ManagePassword from "./components/ManagePassword";
+import { useNavigate } from "react-router-dom";
+import { CustomBtn } from "../../component/CustomBtn";
+import { useGetState } from "../../GlobalStateContext/useGetState";
+import { FaEnvelope } from "react-icons/fa";
+import FormInput from "../../component/FormInput";
+import { FaPhoneAlt } from "react-icons/fa";
+import AccountManagement from "./components/AccountManagement";
+import NotificationManagement from "./components/NotificationManagement";
+import ChangePassword from "./components/ChangePassword";
+import PublicProfile from "./components/PublicProfile";
+import DeleteAccount from "./components/DeleteAccount";
+import { useQuery } from "@tanstack/react-query";
+import { getJobs } from "../job/services/Index";
 
 const Setting = () => {
-    const {state} = useGetState()
-    const navigate = useNavigate()
+     const inputRef = useRef(null);
+
+       const {
+         data: allJobs,
+         isLoading,
+         refetch: fetchProjects,
+       } = useQuery({
+         queryKey: ["jobs"],
+         queryFn: getJobs,
+       });
+       console.log(allJobs)
+
+
+  const handleClick = () => {
+    inputRef.current?.click();
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    console.log("Selected file:", file);
+  };
+  const { state } = useGetState();
+  console.log(state, "pop");
+  const navigate = useNavigate();
   return (
-    <Box>
-        <CardHeader>
+    <Box h={"100%"} color={"#fff"}>
+      <CardHeader></CardHeader>
+      <Flex align={"center"} justify={"space-between"} mt="70px">
+        <HStack spacing={5}>
+          <Box>
+            <Avatar src={state?.profileImage} size={"xl"}/>
+          </Box>
+          <Box>
+            <Text fontWeight={"bold"} fontSize={"25px"}>{state?.firstName + " " + state?.lastName}</Text>
+            <Flex align={"center"} gap={"30px"}>
+              <Flex align={"center"} gap={"10px"}>
+                <FaEnvelope />
+                <Text>{state?.email}</Text>
+              </Flex>
 
-        </CardHeader>
-        <Flex mt="50px" gap={"50px"} align={"start"} flexDir={["column","column","column","row"]}>
-            <Box flex={1} width={"full"}>
-                <ServiceProviderCard/>
-                <CustomBtn text={"view profile"} mt="20px" handleClick={()=>{
-                    navigate("/profile")
-                }}/>
-            </Box>
-            <Box flex={2} width={"full"}><ServiceDescription /></Box>
-        </Flex>
-        <Flex my={"30px"} gap={"50px"} align={"start"} flexDir={["column","column","column","row"]}> 
-            <Box flex={2} width={"full"}>
-                <PersonalInfo />
-            </Box>
-            <Box flex={1.5} width={"full"}>
-                <ManagePassword />
-            </Box>
-        </Flex>
+              <Flex align={"center"} gap={"10px"}>
+                <FaPhoneAlt/>
+                <Text>{state?.phone}</Text>
+              </Flex>
+            </Flex>
+          </Box>
+        </HStack>
+
+        <CustomBtn
+          text={"Upload Profile Image"}
+          handleClick={handleClick}
+          bg={"none"}
+          border={"1px solid #fff"}
+        />
+        <input
+          type="file"
+          ref={inputRef}
+          style={{ display: "none" }}
+          onChange={handleFileChange}
+        />
+      </Flex>
+      <AccountManagement refetch={() => fetchProjects()}/>
+      <NotificationManagement />
+      <ChangePassword />
+      <Flex align={"center"} gap={"50px"}>
+        <PublicProfile />
+        <DeleteAccount />
+      </Flex>
+      
     </Box>
-  )
-}
+  );
+};
 
-export default Setting
+export default Setting;

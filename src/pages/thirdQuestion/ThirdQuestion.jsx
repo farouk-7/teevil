@@ -1,5 +1,5 @@
 import {
-    Avatar,
+  Avatar,
   Box,
   Button,
   Flex,
@@ -11,28 +11,74 @@ import {
   Select,
   Text,
   Textarea,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import logo from "../../assets/logo.png";
 import loginBg from "../../assets/loginBg.png";
+import { useNavigate } from "react-router-dom";
 import { CustomBtn } from "../../component/CustomBtn";
 import { _COLORS } from "../../constants/colors";
 import FormInput from "../../component/FormInput";
-import { FaCamera } from "react-icons/fa6";
+
+import questionImg from "../../assets/questionImg.png";
+import { getLocalStorageItem } from "../../utils/localStorage";
+import { APP_CONSTANTS } from "../../constants/app";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createExperince } from "../firstQuestion/service";
+import FreelanceProfilePicModal from "./FreelanceProfilePicModal";
+import CustomModal from "../../component/CustomModal";
 
 const ThirdQuestion = () => {
-  const [image, setImage] = useState(null);
+  const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  
+  const userAccount = getLocalStorageItem(APP_CONSTANTS.accountType);
+  const id = userAccount?._id;
+  const queryClient = useQueryClient();
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
-    }
+  const [formValue, setFormValues] = useState({
+    bio: "",
+    title: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
   };
+
+  const { mutate: sendExperience, isPending: isUpdateMutating } = useMutation({
+    mutationFn: (payload) => createExperince(payload),
+    mutationKey: ["question"],
+    onSuccess: (data) => {
+      
+      console.log("data", data);
+      queryClient.invalidateQueries({ queryKey: ["question"] });
+      onOpen();
+    },
+    onError: (error) => {
+      console.error("Update Profile Mutation error", error);
+    },
+  });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const payload = {
+      id: id,
+      ...formValue,
+    };
+
+    sendExperience(payload);
+    console.log(payload, "ry/");
+  };
+
+  
   return (
-    <Box h={"100vh"} overflow={"hidden"} bg={"#000"} color={"#fff"}>
+    <Box h={"100vh"}  bg={"#000"} color={"#fff"}>
+      <CustomModal isOpen={isOpen} onClose={onClose} bg={'#3D3D3D'}>
+        <FreelanceProfilePicModal />
+      </CustomModal>
+       
       <Flex justify={"space-between"} flexDir={"row"} gap={"50px"}>
         <Box p={"10px 50px"} flex={1}>
           <Image src={logo} h={"50px"} />
@@ -42,52 +88,23 @@ const ThirdQuestion = () => {
               Craft a compelling bio to introduce yourself to the world.
             </Text>
           </Box>
-          <Box>
-            <VStack spacing={4} align="center" mb={"20px"}>
-              {/* Profile Image with Camera Icon */}
-              <Box position="relative" w="120px" h="120px">
-                <Avatar size="full" src={image} name="Profile Picture" />
-                <IconButton
-                  aria-label="Change Profile Picture"
-                  icon={<FaCamera />}
-                  position="absolute"
-                  bottom="0"
-                  right="0"
-                  borderRadius="full"
-                  bg="gray.100"
-                  size="md"
-                  colorScheme="gray"
-                  _hover={{ bg: "gray.200" }}
-                  onClick={() => document.getElementById("fileInput").click()}
-                />
-              </Box>
-
-              {/* Hidden File Input */}
-              <Input
-                type="file"
-                id="fileInput"
-                accept="image/*"
-                onChange={handleImageChange}
-                display="none"
-              />
-
-              {/* Change Profile Button */}
-              {/* <Button
-                onClick={() => document.getElementById("fileInput").click()}
-                colorScheme="blue"
-              >
-                Change Profile Picture
-              </Button> */}
-            </VStack>
-          </Box>
+          
           <Box>
             <FormInput
               label={"Your Job Title"}
+              value={formValue?.title}
+              handleChange={handleChange}
+              name="title"
+              type={"text"}
               focusBorderColor={_COLORS?.brand}
             />
             <Box mt="20px">
               <FormInput
                 lines={5}
+                type={"text"}
+                name="bio"
+                value={formValue?.bio}
+                handleChange={handleChange}
                 label={"Bio"}
                 focusBorderColor={_COLORS?.brand}
               />
@@ -98,16 +115,38 @@ const ThirdQuestion = () => {
               <Progress value={100} size="xs" colorScheme={"red"} />
             </Box>
             <Flex align={"center"} gap={"20px"}>
-              <Text cursor={"pointer"}>Skip For Now</Text>
-              <CustomBtn text={"Next"} bg={_COLORS?.brand} width={"100px"} />
+              <Text
+                cursor={"pointer"}
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                Skip For Now
+              </Text>
+             
+              <CustomBtn
+                disabled={!formValue?.bio || !formValue?.title}
+                loading={isUpdateMutating}
+                text={"Next"}
+                bg={_COLORS?.brand}
+                width={"100px"}
+                handleClick={handleSubmit}
+                // handleClick={()=>{
+                //   onOpen()
+                // }}
+               
+               
+              />
             </Flex>
           </Flex>
         </Box>
 
         <Box flex={1}>
-          <Image src={loginBg} h={"auto"} />
+          <Image src={questionImg} h={"100vh"} w={"full"} />
         </Box>
       </Flex>
+      
+       
     </Box>
   );
 };
