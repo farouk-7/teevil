@@ -14,45 +14,17 @@ import {
 } from "@chakra-ui/react";
 // import Action from "./Action";
 import Action from "../dashboard/components/Action";
+import JobAction from "./JobAction";
 
-const payments = [
-  {
-    date: "2025-02-20",
-    project: "E-commerce Website",
-    freelancer: { name: "Darcel Williams", email: "marcelw@gmail.com", avatar: "" },
-    amount: "$2,000",
-    status: "Failed",
-  },
-  {
-    date: "2025-02-20",
-    project: "Mobile App UI Design",
-    freelancer: { name: "Vincent Green", email: "vincentg@gmail.com", avatar: "" },
-    amount: "$2,000",
-    status: "Pending",
-  },
-  {
-    date: "2025-02-20",
-    project: "Marketing Strategy",
-    freelancer: { name: "Lauren Palmer", email: "laurenp@gmail.com", avatar: "" },
-    amount: "$2,000",
-    status: "Paid",
-  },
-  {
-    date: "2025-02-20",
-    project: "Logo Animation",
-    freelancer: { name: "Jean Smith", email: "jeansmith@gmail.com", avatar: "" },
-    amount: "$2,000",
-    status: "Paid",
-  },
-];
+
 
 const statusColor = {
-  Paid: "#285229ED",
-  Pending: "#FBBF2433",
-  Failed: "#FF5A5F6B",
+  active: "#285229ED",
+  drafted: "#FBBF2433",
+  closed: "#FF5A5F6B",
 };
 
-export default function ClosedJob() {
+export default function ClosedJob({payments}) {
   return ( 
     <Box  w="100%" color="white">
     
@@ -76,7 +48,7 @@ export default function ClosedJob() {
         <Table variant={"simple"}>
           <Thead>
             <Tr mb="70px">
-              {["Date", "Project Name", "Freelancer Name", "Amount", "Status",""].map((heading) => (
+              {["Date Posted", "Job Title", "Proposals", "Budget", "Status",""].map((heading) => (
                 <Th
                   key={heading}
                   position="sticky"
@@ -96,7 +68,7 @@ export default function ClosedJob() {
               <Tr key={index}>
                 <Td px="30px">{payment.date}</Td>
                 <Td>{payment.project}</Td>
-                <Td>
+                {/* <Td>
                   <Flex align="center" gap={3}>
                     <Avatar size="sm" name={payment.freelancer.name} src={payment.freelancer.avatar} />
                     <Box>
@@ -106,8 +78,9 @@ export default function ClosedJob() {
                       </Text>
                     </Box>
                   </Flex>
-                </Td>
-                <Td>{payment.amount}</Td>
+                </Td> */}
+                 <Td>{payment.proposal}</Td>
+                <Td>{payment.budget}</Td>
                 <Td>
                   <Badge
                     // colorScheme={statusColor[payment.status]}
@@ -122,7 +95,7 @@ export default function ClosedJob() {
                 </Td>
                 <Td>
                  
-                  <Action />
+                  <JobAction />
                   </Td>
               </Tr>
             ))}

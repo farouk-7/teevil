@@ -74,42 +74,86 @@ const DateFilterPopup = ({ isOpen, onClose, setFilter, filter }) => {
   );
 };
 
-const SearchField = ({ handleSearch, placeholder, bg, searchQuery, value, onChange }) => {
+// const SearchField = ({ handleSearch, placeholder, bg, searchQuery, value, onChange }) => {
+//   const { isOpen, onOpen, onClose } = useDisclosure();
+
+//   const handleChange = (event) => {
+
+//     setFilter({ ...filter, [searchKey]: event.target.value });
+//   };
+
+
+//   return (
+//     <>
+//       <InputGroup bg={"#D3F9FF17"} borderRadius={"10px"} width={["100%", "100%", "100%"]}>
+//         <InputLeftElement pointerEvents="none">
+//           <IoSearch color={_COLORS.textGrey} />
+//         </InputLeftElement>
+//         <Input
+//           placeholder={placeholder || "Search..."}
+//           _focus={{
+//             border: "none",
+//           }}
+//           border={"none"}
+//           borderRadius={"10px"}
+//           focusBorderColor='transparent'
+//           color={"#fff"}
+//           bg={bg}
+//           value={value}
+//           onChange={onChange}
+//           // focusBorderColor="none"
+//         />
+//         <InputRightElement cursor="pointer" onClick={onOpen}>
+//           {/* <FaSlidersH color={_COLORS.brand} /> */}
+//         </InputRightElement>
+//       </InputGroup>
+//       {/* <DateFilterPopup isOpen={isOpen} onClose={onClose} setFilter={setFilter} filter={filter} /> */}
+//     </>
+//   );
+// };
+
+const SearchField = ({ handleSearch, placeholder, bg, searchKey, filter, setFilter, value, onChange }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const handleChange = (event) => {
-
-    setFilter({ ...filter, [searchKey]: event.target.value });
-  };
-
 
   return (
     <>
-      <InputGroup bg={"#D3F9FF17"} borderRadius={"10px"} width={["100%", "100%", "100%"]}>
+      <InputGroup bg={bg || "#D3F9FF17"} borderRadius="10px" width="100%">
         <InputLeftElement pointerEvents="none">
           <IoSearch color={_COLORS.textGrey} />
         </InputLeftElement>
         <Input
           placeholder={placeholder || "Search..."}
-          _focus={{
-            border: "none",
-          }}
-          border={"none"}
-          borderRadius={"10px"}
-          color={"#fff"}
+          _focus={{ border: "none" }}
+          border="none"
+          borderRadius="10px"
+          focusBorderColor="transparent"
+          color="#fff"
           bg={bg}
           value={value}
           onChange={onChange}
-          focusBorderColor="none"
         />
-        <InputRightElement cursor="pointer" onClick={onOpen}>
-          {/* <FaSlidersH color={_COLORS.brand} /> */}
-        </InputRightElement>
+        {/* <InputRightElement cursor="pointer" onClick={onOpen}>
+          <FaSlidersH color={_COLORS.brand} />
+        </InputRightElement> */}
       </InputGroup>
-      {/* <DateFilterPopup isOpen={isOpen} onClose={onClose} setFilter={setFilter} filter={filter} /> */}
+
+      {/* Optional date filter modal */}
+      {/* {setFilter && filter && (
+        <DateFilterPopup
+          isOpen={isOpen}
+          onClose={onClose}
+          setFilter={setFilter}
+          filter={filter}
+        />
+      )} */}
     </>
   );
 };
+
+
+
+
+
 
 SearchField.propTypes = {
   setFilter: PropTypes.func.isRequired,

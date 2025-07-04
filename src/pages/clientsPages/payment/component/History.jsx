@@ -12,17 +12,52 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import JobAction from "./JobAction";
+// import Action from "./Action";
+// import Action from "../dashboard/components/Action";
+import Action from "../../dashboard/components/Action"
 
-
+const payments = [
+  {
+    date: "2025-02-20",
+    project: "E-commerce Website",
+    freelancer: { name: "Marcel Williams", email: "marcelw@gmail.com", avatar: "" },
+    amount: "$2,000",
+    method:"Escrow Funded",
+    status: "Processing",
+  },
+  {
+    date: "2025-02-20",
+    project: "Mobile App UI Design",
+    freelancer: { name: "Vincent Green", email: "vincentg@gmail.com", avatar: "" },
+    amount: "$2,000",
+    method:"Escrow Funded",
+    status: "Failed",
+  },
+  {
+    date: "2025-02-20",
+    project: "Marketing Strategy",
+    freelancer: { name: "Lauren Palmer", email: "laurenp@gmail.com", avatar: "" },
+    amount: "$2,000",
+    method:"Escrow Funded",
+    status: "Paid",
+  },
+  {
+    date: "2025-02-20",
+    project: "Logo Animation",
+    method:"Escrow Funded",
+    freelancer: { name: "Jean Smith", email: "jeansmith@gmail.com", avatar: "" },
+    amount: "$2,000",
+    status: "Paid",
+  },
+];
 
 const statusColor = {
-  active: "#285229ED",
-  drafted: "#FBBF2433",
-  closed: "#FF5A5F6B",
+  Paid: "#285229ED",
+  Processing: "#2270EE38",
+  Failed: "#FF5A5F6B",
 };
 
-export default function DraftedJob({payments}) {
+export default function History() {
   return ( 
     <Box  w="100%" color="white">
     
@@ -43,10 +78,10 @@ export default function DraftedJob({payments}) {
         borderColor="#2C2C2C"
         bg={"#2C2C2C"}
       >
-         <Table variant={"simple"}>
+        <Table variant={"simple"}>
           <Thead>
             <Tr mb="70px">
-              {["Date Posted", "Job Title", "Proposals", "Budget", "Status",""].map((heading) => (
+              {["Date", "Project Name", "Freelancer Details", "Amount", "Method", "Status",].map((heading) => (
                 <Th
                   key={heading}
                   position="sticky"
@@ -66,7 +101,7 @@ export default function DraftedJob({payments}) {
               <Tr key={index}>
                 <Td px="30px">{payment.date}</Td>
                 <Td>{payment.project}</Td>
-                {/* <Td>
+                <Td>
                   <Flex align="center" gap={3}>
                     <Avatar size="sm" name={payment.freelancer.name} src={payment.freelancer.avatar} />
                     <Box>
@@ -76,9 +111,10 @@ export default function DraftedJob({payments}) {
                       </Text>
                     </Box>
                   </Flex>
-                </Td> */}
-                 <Td>{payment.proposal}</Td>
-                <Td>{payment.budget}</Td>
+                </Td>
+                <Td>{payment.amount}</Td>
+                <Td>{payment.method}</Td>
+                
                 <Td>
                   <Badge
                     // colorScheme={statusColor[payment.status]}
@@ -91,10 +127,10 @@ export default function DraftedJob({payments}) {
                     {payment.status}
                   </Badge>
                 </Td>
-                <Td>
+                {/* <Td>
                  
-                  <JobAction />
-                  </Td>
+                  <Action />
+                  </Td> */}
               </Tr>
             ))}
           </Tbody>

@@ -17,6 +17,8 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { FaPlus } from "react-icons/fa6";
 import FormInput from "../../../component/FormInput";
 import { LuSend } from "react-icons/lu";
+import ChatApp from "./component/Message";
+import { useState } from "react";
 
 const data = [
   {
@@ -40,9 +42,33 @@ const data = [
     time: "5:30pm",
     active: true,
   },
+  {
+    id: 4,
+    name: "Micheal Jackson",
+    message: "For a full design, I estimake 2 weeks",
+    time: "5:30pm",
+    active: true,
+  },
+  {
+    id: 5,
+    name: "John Wick",
+    message: "For a full design, I estimake 2 weeks",
+    time: "5:30pm",
+    active: false,
+  },
 ];
 
 const ClientMessages = () => {
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState({ fromDate: "", toDate: "", name: "" });
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setFilter((prev) => ({
+      ...prev,
+      name: e.target.value, // or whatever key you are filtering with
+    }));
+  };
   return (
     <Box h={"100vh"}>
       <CardHeader></CardHeader>
@@ -55,7 +81,15 @@ const ClientMessages = () => {
           borderRadius={"10px"}
           p={"10px"}
         >
-          <SearchField bg={"#3D3D3D"} placeholder={"Client Name"} />
+          <SearchField
+            bg={"#3D3D3D"}
+            placeholder={"Client Name"}
+            value={search}
+            onChange={handleSearchChange}
+            searchKey="name"
+            filter={filter}
+            setFilter={setFilter}
+          />
           <Flex justify={"center"}>
             <Tabs variant="unstyled" mt="10px">
               <TabList
@@ -92,62 +126,38 @@ const ClientMessages = () => {
             </Tabs>
           </Flex>
 
-          {data?.map((datum) => (
-            <Box mt="30px">
-              <Flex key={datum?.id} color={"#fff"}>
-                <HStack spacing={4}>
-                  <Avatar name={datum?.name} />
-                  <Box>
-                    <Text>{datum?.name}</Text>
-                    <Flex align={"center"} gap={"5px"}>
-                      {datum?.active ? <GoDotFill color="#22D3EE" /> : ""}
-                      <Text color={"#A3A3A3"}>{datum?.message}</Text>
-                    </Flex>
-                  </Box>
-                </HStack>
-                <Text color={"#A3A3A3"}>{datum?.time}</Text>
-              </Flex>
-              <Box my="20px">
-                <Divider />
+          {data
+            ?.filter((datum) =>
+              datum.name.toLowerCase().includes(search.toLowerCase())
+            )
+            .map((datum) => (
+              <Box mt="30px" key={datum?.id}>
+                <Flex color={"#fff"} justify={"space-between"}>
+                  <HStack spacing={4}>
+                    <Avatar name={datum?.name} />
+                    <Box>
+                      <Text>{datum?.name}</Text>
+                      <Flex align={"center"} gap={"5px"}>
+                        {datum?.active ? <GoDotFill color="#22D3EE" /> : ""}
+                        <Text color={"#A3A3A3"} fontSize={"15px"}>
+                          {datum?.message}
+                        </Text>
+                      </Flex>
+                    </Box>
+                  </HStack>
+
+                  <Text color={"#A3A3A3"} textAlign={"end"} fontSize={"13px"}>
+                    {datum?.time}
+                  </Text>
+                </Flex>
+                <Box my="10px">
+                  <Divider />
+                </Box>
               </Box>
-            </Box>
-          ))}
+            ))}
         </Box>
 
-        {/* <Box bg={"#2C2C2C"} h={"300px"} flex={2.0} borderRadius={"10px"}>
-          <Flex color={"#fff"} p={"10px 20px"} justifyContent={"space-between"} align={"center"}>
-            <HStack spacing={3}>
-              <Avatar name="Vanessa Kent"/>
-              <Box>
-                <Text>Vanessa Kent</Text>
-                <Text color={"#F5F5F5"}>johndoe@gmail.com</Text>
-              </Box>
-            </HStack>
-            <Box>
-              <HiDotsHorizontal size={25}/>
-            </Box>
-          </Flex>
-          <Box mb="10px">
-            <Divider />
-          </Box>
-          <Flex px={"20px"} align={"center"} gap={"30px"}>
-            <Box bg={"#787878"} h={"1px"} w={"full"}></Box>
-            <Text color={"#fff"}>Today</Text>
-            <Box bg={"#787878"} h={"1px"} w={"full"}></Box>
-          </Flex>
-
-          <Flex >
-             ghnvb
-          </Flex>
-        </Box> */}
-        <Box
-          bg="#2C2C2C"
-          h="300px"
-          flex={2}
-          borderRadius="10px"
-          display="flex"
-          flexDirection="column"
-        >
+        <Box bg="#2C2C2C" h="300px" flex={2} borderRadius={"10px"}>
           <Flex
             color="#fff"
             p="10px 20px"
@@ -168,38 +178,9 @@ const ClientMessages = () => {
           <Box mb="10px">
             <Divider />
           </Box>
-          <Flex px="20px" align="center" gap="30px">
-            <Box bg="#787878" h="1px" w="full" />
-            <Text color="#fff">Today</Text>
-            <Box bg="#787878" h="1px" w="full" />
-          </Flex>
-          <Box flex="1" /> {/* Spacer to push last Flex down */}
-          <Flex
-            px={"20px"}
-            pb="10px"
-            bg={"#222222"}
-            justify={"center"}
-            align={"center"}
-            gap={"30px"}
-          >
-            <label htmlFor="file-upload" style={{ cursor: "pointer" }}>
-              <FaPlus size={25} color="white" />
-              <input
-                id="file-upload"
-                type="file"
-                style={{ display: "none" }}
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    console.log("Selected file:", file);
-                    // You can handle the file upload logic here
-                  }
-                }}
-              />
-            </label>
-            <FormInput />
-            <LuSend size={25} color="white" />
-          </Flex>
+          <Box flex="1" />
+
+          <ChatApp />
         </Box>
       </Flex>
     </Box>

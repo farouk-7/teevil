@@ -12,6 +12,8 @@ import ClientSidebar from "./ClientSidebar"
 import Projects from "../pages/clientsPages/projects/Index";
 import ProposalList from "../pages/clientsPages/proposalList/Index"
 import ClientMessages from "../pages/clientsPages/message/Index";
+import Payment from "../pages/clientsPages/payment/Index";
+import Setting from "../pages/clientsPages/setting/Index";
 
 const ClientAuthenticatedRoutes = () => {
   const { setState = {}, state = {} } = useGetState();
@@ -72,6 +74,14 @@ const ClientAuthenticatedRoutes = () => {
                   <Route
                   path={CLIENT_AUTHENTICATED_ROUTES.messages}
                   element={<ClientMessages />}
+                />
+                 <Route
+                  path={CLIENT_AUTHENTICATED_ROUTES.payment}
+                  element={<Payment />}
+                />
+                 <Route
+                  path={CLIENT_AUTHENTICATED_ROUTES.setting}
+                  element={<Setting />}
                 />
                 <Route path="/*" element={<Dashboard />} />
               </Routes>
