@@ -12,41 +12,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-// import Action from "./Action";
-import Action from "../../dashboard/components/Action";
-
-const payments = [
-  {
-    deadline: "2025-02-20",
-    projectTitle: "E-commerce Website",
-    freelancer: { name: "Marcel Williams", email: "marcelw@gmail.com", avatar: "" },
-    amount: "$2,000",
-    status: "completed",
-    task: "10/60",
-    section:"10",
-    collaborators:"7+"
-  },
-  {
-    deadline: "2025-02-20",
-    projectTitle: "Mobile App UI Design",
-    freelancer: { name: "Vincent Green", email: "vincentg@gmail.com", avatar: "" },
-    amount: "$2,000",
-    status: "completed",
-    task: "0/0",
-    section:"1",
-    collaborators:"2+"
-  },
-  {
-    deadline: "2025-02-20",
-    projectTitle: "Marketing Strategy",
-    freelancer: { name: "Lauren Palmer", email: "laurenp@gmail.com", avatar: "" },
-    status: "inprogress", 
-    task: "3/7",
-    section:"3",
-    collaborators:"2+"
-  },
-
-];
+import ProjectAction from "./ProjectAction";
 
 const statusColor = {
   completed: "#285229ED",
@@ -54,7 +20,7 @@ const statusColor = {
   inprogress: "#FF5A5F6B",
 };
 
-export default function AllProject() {
+export default function AllProject({payments}) {
   return ( 
     <Box  w="100%" color="white">
     
@@ -126,7 +92,7 @@ export default function AllProject() {
                 </Td>
                 <Td>
                  
-                  <Action />
+                 <ProjectAction data={payment}/>
                   </Td>
               </Tr>
             ))}

@@ -5,4 +5,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
   

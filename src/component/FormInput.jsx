@@ -1,5 +1,6 @@
-import { FormControl, FormLabel, Input, Textarea } from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, InputGroup, InputRightElement, Textarea } from "@chakra-ui/react";
 import PropTypes from "prop-types";
+import { useRef } from "react";
 
 function FormInput({
   label,
@@ -14,19 +15,34 @@ function FormInput({
   focusBorderColor,
   lines,
   labelColor,
+  rightIcon,
   ...props
 }) {
+
+  const inputRef = useRef(null);
+
+  const openDatePicker = () => {
+    if (inputRef.current?.showPicker) {
+      inputRef.current.showPicker(); // ✅ Opens the native date picker
+    } else {
+      inputRef.current?.focus(); // fallback
+    }
+  };
+
   return (
     <FormControl mt={mt} mb={mb}>
       <FormLabel fontSize={"1em"} color={labelColor}>
         {label}
       </FormLabel>
+      <InputGroup>
       {!lines ? (
         <Input
           type={type}
+          ref={inputRef}
           w={"full"}
           key={key}
           name={name}
+          // style={{ accentColor: "white" }} 
           value={value}
           focusBorderColor={focusBorderColor}
           onChange={handleChange}
@@ -45,6 +61,12 @@ function FormInput({
           {...props}
         />
       )}
+          {rightIcon && (
+          <InputRightElement onClick={openDatePicker} cursor="pointer">
+            {rightIcon}
+          </InputRightElement>
+        )}
+      </InputGroup>
     </FormControl>
   );
 }

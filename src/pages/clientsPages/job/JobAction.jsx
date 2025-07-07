@@ -10,40 +10,29 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useRef } from "react";
-import { BsEye, BsThreeDots } from "react-icons/bs";
+import { BsThreeDots } from "react-icons/bs";
 import { _COLORS } from "../../../constants/colors";
 import CustomModal from "../../../component/CustomModal";
 import PostJob from "./PostJob";
-// import { CustomBtn } from '../../../../component/CustomBtn'
+import JobDetails from "./JobDetails";
+import DeleteJob from "./DeleteJob";
 
-// import { deleteClientInvoice, deleteTransaction } from '../services/Index'
-// import { QueryClient, useMutation } from '@tanstack/react-query'
-// import DeleteClientTransaction from './DeleteClientTransaction'
-// import ClientTransactionDetails from './ClientTransactionDetails'
-// import { useNavigate } from 'react-router-dom'
+const JobAction = ({ data }) => {
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure();
 
-const JobAction = ({data}) => {
-    
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isDetailOpen,
+    onOpen: onDetailOpen,
+    onClose: onDetailClose,
+  } = useDisclosure();
+
   const btnRef = useRef();
-  //   const queryClient = new QueryClient();
-  //   const { mutate: deleteTransactionMutation, isPending: isDeleteMutating } =
-  //   useMutation({
-  //     mutationFn: () => deleteTransaction(event?._id),
-  //     mutationKey: ["delete-transaction"],
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries({ queryKey: ["transaction"] });
-  //       refetch && refetch();
-  //       onClose();
-  //     },
-  //     onError: (error) => {
-  //       console.error("Update Profile Mutation error", error);
-  //     },
-  //   });
+  const detailRef = useRef();
 
-  // const handleDelete = () => {
-  //   deleteTransactionMutation();
-  // };
   return (
     <Box>
       <Popover>
@@ -64,45 +53,66 @@ const JobAction = ({data}) => {
             flexDir={"column"}
             px={"20px"}
           >
-            {/* <CustomModal
-            header="Transaction Details"
-            maxH={"500px"}
-            size={"xl"}
-            overflow={"scroll"}
-            icon={<Text>View Details</Text>}
-           
-          >
-          
-           
-          </CustomModal> */}
-            <Text cursor={"pointer"}>View Details</Text>
-            {/* onClick={() => navigate(`/orderdetails/${requestId}`)} */}
-
-            <Text ref={btnRef} onClick={onOpen} cursor={"pointer"}>
+            <Text cursor={"pointer"} ref={detailRef} onClick={onDetailOpen}>
+              View Details
+            </Text>
+            <Text ref={btnRef} onClick={onEditOpen} cursor={"pointer"}>
               Edit
             </Text>
 
-            <CustomModal
-              header="Add Collaborators"
+            {data?.status==="active"?(
+              <CustomModal
+              header="Close Job"
               headerColor={"#fff"}
               maxH={"500px"}
               bg={"#2C2C2C"}
               size={"xl"}
               overflow={"scroll"}
               color={"#fff"}
-              icon={<Text>Share</Text>}
-            ></CustomModal>
+              // onClose={onEditClose}
+              icon={<Text>Close Job</Text>}
+            >
+              <DeleteJob onClose={onEditClose} />
+            </CustomModal>
+            ): data?.status==="closed"?(
+              <Text cursor={"pointer"} ref={detailRef} onClick={onDetailOpen}>
+              Re-Post
+            </Text>
+            ):
+            <Text cursor={"pointer"} ref={detailRef} onClick={onDetailOpen}>
+              Post
+            </Text>
+            }
+            
+
             <CustomModal
-              header="Delect Project"
+              header="Delete Job"
               maxH={"500px"}
+              color={"#fff"}
+              bg={"#2C2C2C"}
               size={"xl"}
               overflow={"scroll"}
               icon={<Text>Delete</Text>}
-            ></CustomModal>
+            >
+              <DeleteJob onClose={onEditClose} />
+            </CustomModal>
           </PopoverBody>
         </PopoverContent>
       </Popover>
-      <PostJob isOpen={isOpen} finalFocusRef={btnRef} onClose={onClose} data ={data}/>
+
+      {/* Modals */}
+      <PostJob
+        isOpen={isEditOpen}
+        finalFocusRef={btnRef}
+        onClose={onEditClose}
+        data={data}
+      />
+      <JobDetails
+        isOpen={isDetailOpen}
+        finalFocusRef={detailRef}
+        onClose={onDetailClose}
+        data={data}
+      />
     </Box>
   );
 };

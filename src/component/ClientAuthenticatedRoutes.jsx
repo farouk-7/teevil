@@ -14,6 +14,7 @@ import ProposalList from "../pages/clientsPages/proposalList/Index"
 import ClientMessages from "../pages/clientsPages/message/Index";
 import Payment from "../pages/clientsPages/payment/Index";
 import Setting from "../pages/clientsPages/setting/Index";
+import VieMore from "../pages/clientsPages/projects/components/VieMore";
 
 const ClientAuthenticatedRoutes = () => {
   const { setState = {}, state = {} } = useGetState();
@@ -82,6 +83,10 @@ const ClientAuthenticatedRoutes = () => {
                  <Route
                   path={CLIENT_AUTHENTICATED_ROUTES.setting}
                   element={<Setting />}
+                />
+                <Route
+                  path={"/viewmore"}
+                  element={<VieMore/>}
                 />
                 <Route path="/*" element={<Dashboard />} />
               </Routes>
